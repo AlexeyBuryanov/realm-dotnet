@@ -26,7 +26,7 @@ function nuget(shouldBuildDocsCondition: String): gha.Job = new {
     setVersionSuffix
     ...Steps.fetchWrappers(null)
     ...Steps.msbuild(new Steps.MSBuildConfig {
-      projects = Common.packages.map((pkg) -> "Realm/\(pkg)").toListing()
+      projects = Common.packages.map((pkg) -> "Realm/\(Common.packageProjectDir[pkg])").toListing()
       target = "Pack"
       properties {
         ["PackageOutputPath"] = "${{ github.workspace }}/Realm/packages"
