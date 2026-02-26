@@ -19,6 +19,10 @@ if(ANDROID)
   endif()
 
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,max-page-size=16384")
+
+  # Clang 21+ (NDK 29+) errors on specializing std::is_pod in the s2 library.
+  # Applied globally because s2 headers are included by multiple targets (e.g. Storage).
+  add_compile_options(-Wno-invalid-specialization)
 endif()
 
 option(REALM_DOTNET_BUILD_CORE_FROM_SOURCE "Build Realm Core from source, as opposed to downloading prebuilt binaries" ON)
@@ -28,11 +32,6 @@ if(REALM_DOTNET_BUILD_CORE_FROM_SOURCE)
   set(REALM_ENABLE_ASSERTIONS ON CACHE BOOL "Enable release assertions")
 
   add_subdirectory(realm-core EXCLUDE_FROM_ALL)
-
-  # Clang 21+ (NDK 29+) errors on specializing std::is_pod in the s2 library
-  if(ANDROID AND TARGET s2geometry)
-    target_compile_options(s2geometry PRIVATE -Wno-invalid-specialization)
-  endif()
 endif()
 
 # Build as a .framework instead of .dylib
