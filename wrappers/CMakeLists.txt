@@ -30,7 +30,7 @@ if(REALM_DOTNET_BUILD_CORE_FROM_SOURCE)
   add_subdirectory(realm-core EXCLUDE_FROM_ALL)
 
   # Clang 21+ (NDK 29+) errors on specializing std::is_pod in the s2 library
-  if(ANDROID)
+  if(ANDROID AND TARGET s2geometry)
     target_compile_options(s2geometry PRIVATE -Wno-invalid-specialization)
   endif()
 endif()
