@@ -485,7 +485,7 @@ jobs:
     - name: Setup Xcode
       uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
       with:
-        xcode-version: latest-stable
+        xcode-version: '16.4'
     - name: Build Tests/Tests.Maui
       run: dotnet build Tests/Tests.Maui -c Release -f net8.0-maccatalyst -p:RestoreConfigFile=Tests/Test.NuGet.Config -p:UseRealmNupkgsWithVersion=${{ needs.build-packages.outputs.package_version }}
     - name: Run the tests
@@ -532,7 +532,7 @@ jobs:
     - name: Setup Xcode
       uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd
       with:
-        xcode-version: latest-stable
+        xcode-version: '16.4'
     - name: Build Tests/Tests.Maui
       run: dotnet build Tests/Tests.Maui -c Release -f net8.0-ios -p:RestoreConfigFile=Tests/Test.NuGet.Config -p:UseRealmNupkgsWithVersion=${{ needs.build-packages.outputs.package_version }}
     - name: Run on Simulator

@@ -82,7 +82,7 @@ jobs {
       enableLTO = false
       platform = "${{ matrix.platform }}-${{ matrix.target }}"
       intermediateSteps {
-        Steps.setupXcode("latest-stable")
+        Steps.setupXcode(Common.xcodeVersion)
         Steps.setupCmake("3.29.0")
       }
       ifCondition = "\(Common.applePlatformTargets((platform, target) -> "needs.\(job_CheckCache).outputs.wrappers-\(platform)-\(target) != 'true'").join(" || "))"

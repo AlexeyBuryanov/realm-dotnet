@@ -158,7 +158,7 @@ function iOS_Maui(): gha.Job = testJob(
   (config) -> new Listing<gha.Step> {
     ...prepareTests(config)
     ...Steps.setupMaui()
-    Steps.setupXcode("latest-stable")
+    Steps.setupXcode(Common.xcodeVersion)
     Steps.dotnetBuild("Tests/Tests.Maui", "net8.0-ios", null, getTestProps(false))
     Steps.runSimulator(new Steps.SimulatorConfig {
       appPath = "Tests/Tests.Maui/bin/\(Common.configuration)/net8.0-ios/iossimulator-arm64/Tests.Maui.app"
@@ -181,7 +181,7 @@ function macOS_Maui(): gha.Job = testJob(
   (config) -> new Listing<gha.Step> {
     ...prepareTests(config)
     ...Steps.setupMaui()
-    Steps.setupXcode("latest-stable")
+    Steps.setupXcode(Common.xcodeVersion)
     Steps.dotnetBuild("Tests/Tests.Maui", "net8.0-maccatalyst", null, getTestProps(false))
     new {
       name = "Run the tests"
