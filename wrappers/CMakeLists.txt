@@ -29,7 +29,7 @@ if(ANDROID)
   # translation unit) has std::strtol available without modifying the submodule.
   # Use generator expression to apply only to C++ files – <cstdlib> does not
   # exist for the C compiler (breaks e.g. IntelRDFPMathLib).
-  add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-include cstdlib>)
+  add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-include;cstdlib>)
 endif()
 
 option(REALM_DOTNET_BUILD_CORE_FROM_SOURCE "Build Realm Core from source, as opposed to downloading prebuilt binaries" ON)
