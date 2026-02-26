@@ -27,7 +27,9 @@ if(ANDROID)
   # NDK 29+ / Clang 21+ no longer transitively exposes std::strtol.
   # Force-include <cstdlib> so that realm-core's cli_args.cpp (and any other
   # translation unit) has std::strtol available without modifying the submodule.
-  add_compile_options(-include cstdlib)
+  # Use generator expression to apply only to C++ files – <cstdlib> does not
+  # exist for the C compiler (breaks e.g. IntelRDFPMathLib).
+  add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-include cstdlib>)
 endif()
 
 option(REALM_DOTNET_BUILD_CORE_FROM_SOURCE "Build Realm Core from source, as opposed to downloading prebuilt binaries" ON)
