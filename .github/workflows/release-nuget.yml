@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  actions: write
 
 env:
   REALM_DISABLE_ANALYTICS: true
@@ -164,6 +165,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      actions: read
     steps:
       - uses: actions/setup-dotnet@5d1464d5da459f3d7085106d52e499f4dc5d0f59
         with:
