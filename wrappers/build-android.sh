@@ -4,6 +4,7 @@ SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 REALM_CMAKE_CONFIGURATION=Debug
 EXTRA_CMAKE_ARGS=""
+NDK_HOME=""
 
 for i in "$@"
 do
@@ -16,14 +17,23 @@ case $i in
     REALM_CMAKE_CONFIGURATION="${i#*=}"
     shift
   ;;
+  --ndk=*)
+    NDK_HOME="${i#*=}"
+    shift
+  ;;
   *)
     EXTRA_CMAKE_ARGS="$EXTRA_CMAKE_ARGS $i"
   ;;
 esac
 done
 
+# Resolve NDK path: explicit --ndk flag > ANDROID_NDK_HOME env > ANDROID_NDK_LATEST_HOME env
+if [[ -z "$NDK_HOME" ]]; then
+  NDK_HOME="${ANDROID_NDK_HOME:-$ANDROID_NDK_LATEST_HOME}"
+fi
+
 function build() {
-  REALM_CMAKE_SUBPLATFORM="Android/$1" bash "$SCRIPT_DIRECTORY"/build.sh -c=$REALM_CMAKE_CONFIGURATION -DCMAKE_TOOLCHAIN_FILE="${ANDROID_NDK_LATEST_HOME}/build/cmake/android.toolchain.cmake" -DANDROID_ABI=$1 $EXTRA_CMAKE_ARGS
+  REALM_CMAKE_SUBPLATFORM="Android/$1" bash "$SCRIPT_DIRECTORY"/build.sh -c=$REALM_CMAKE_CONFIGURATION -DCMAKE_TOOLCHAIN_FILE="${NDK_HOME}/build/cmake/android.toolchain.cmake" -DANDROID_ABI=$1 $EXTRA_CMAKE_ARGS
 }
 
 export REALM_CMAKE_CONFIGURATION
