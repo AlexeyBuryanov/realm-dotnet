@@ -8,6 +8,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>12</LangVersion>
     <Title>Realm</Title>
+    <PackageId>Realm.Refurbished</PackageId>
     <PackageReleaseNotes>https://docs.mongodb.com/realm-sdks/dotnet/latest/CHANGELOG.html</PackageReleaseNotes>
     <CodeAnalysisRuleSet>$(ProjectDir)..\..\global.ruleset</CodeAnalysisRuleSet>
     <DisableFody>true</DisableFody>
