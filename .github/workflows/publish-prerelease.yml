@@ -29,7 +29,7 @@ jobs:
       shell: bash
       run: |-
         cd Realm/packages
-        pkgVersion=$(find . -type f -regex ".*Realm.[1-9].*.nupkg" -exec basename {} \; | sed -n 's/Realm\.\(.*\)\.nupkg$/\1/p')
+        pkgVersion=$(find . -type f -name "Realm.Refurbished.*.nupkg" -exec basename {} \; | sed -n 's/Realm\.Refurbished\.\(.*\)\.nupkg$/\1/p')
         echo "package_version=$pkgVersion" >> $GITHUB_OUTPUT
     - uses: actions/setup-dotnet@5d1464d5da459f3d7085106d52e499f4dc5d0f59
       with:
@@ -42,8 +42,8 @@ jobs:
         aws-access-key-id: ${{ secrets.NUGET_S3_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.NUGET_S3_SECRET_KEY }}
         aws-region: us-east-1
-    - name: NuGet Publish Realm.${{ steps.get-version.outputs.package_version }}
-      run: sleet push ${{ github.workspace }}/Realm/packages/Realm.${{ steps.get-version.outputs.package_version }}/Realm.${{ steps.get-version.outputs.package_version }}.nupkg --config ${{ github.workspace }}/.github/sleet.json --source NugetSource
+    - name: NuGet Publish Realm.Refurbished.${{ steps.get-version.outputs.package_version }}
+      run: sleet push ${{ github.workspace }}/Realm/packages/Realm.Refurbished.${{ steps.get-version.outputs.package_version }}/Realm.Refurbished.${{ steps.get-version.outputs.package_version }}.nupkg --config ${{ github.workspace }}/.github/sleet.json --source NugetSource
     - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
       with:
         node-version: 16.x

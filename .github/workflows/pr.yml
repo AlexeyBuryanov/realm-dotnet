@@ -177,13 +177,13 @@ jobs:
       shell: bash
       run: |-
         cd Realm/packages
-        pkgVersion=$(find . -type f -regex ".*Realm.[1-9].*.nupkg" -exec basename {} \; | sed -n 's/Realm\.\(.*\)\.nupkg$/\1/p')
+        pkgVersion=$(find . -type f -name "Realm.Refurbished.*.nupkg" -exec basename {} \; | sed -n 's/Realm\.Refurbished\.\(.*\)\.nupkg$/\1/p')
         echo "package_version=$pkgVersion" >> $GITHUB_OUTPUT
-    - name: Store artifacts for Realm.${{ steps.get-version.outputs.package_version }}
+    - name: Store artifacts for Realm.Refurbished.${{ steps.get-version.outputs.package_version }}
       uses: actions/upload-artifact@v4
       with:
-        name: Realm.${{ steps.get-version.outputs.package_version }}
-        path: Realm/packages/Realm.${{ steps.get-version.outputs.package_version }}.*nupkg
+        name: Realm.Refurbished.${{ steps.get-version.outputs.package_version }}
+        path: Realm/packages/Realm.Refurbished.${{ steps.get-version.outputs.package_version }}.*nupkg
         retention-days: ${{ github.event_name != 'pull_request' && 30 || 1 }}
         if-no-files-found: error
     - name: Store artifacts for Realm.UnityUtils.${{ steps.get-version.outputs.package_version }}
@@ -265,7 +265,7 @@ jobs:
     - name: Fetch Realm
       uses: actions/download-artifact@v4
       with:
-        name: Realm.${{ needs.build-packages.outputs.package_version }}
+        name: Realm.Refurbished.${{ needs.build-packages.outputs.package_version }}
         path: ${{ github.workspace }}/Realm/packages/
     - name: Fetch Realm.UnityUtils
       uses: actions/download-artifact@v4
@@ -315,7 +315,7 @@ jobs:
     - name: Fetch Realm
       uses: actions/download-artifact@v4
       with:
-        name: Realm.${{ needs.build-packages.outputs.package_version }}
+        name: Realm.Refurbished.${{ needs.build-packages.outputs.package_version }}
         path: ${{ github.workspace }}/Realm/packages/
     - name: Add msbuild to PATH
       if: ${{ runner.os == 'Windows' }}
@@ -354,7 +354,7 @@ jobs:
     - name: Fetch Realm
       uses: actions/download-artifact@v4
       with:
-        name: Realm.${{ needs.build-packages.outputs.package_version }}
+        name: Realm.Refurbished.${{ needs.build-packages.outputs.package_version }}
         path: ${{ github.workspace }}/Realm/packages/
     - name: Import test certificate
       shell: powershell
@@ -417,7 +417,7 @@ jobs:
     - name: Fetch Realm
       uses: actions/download-artifact@v4
       with:
-        name: Realm.${{ needs.build-packages.outputs.package_version }}
+        name: Realm.Refurbished.${{ needs.build-packages.outputs.package_version }}
         path: ${{ github.workspace }}/Realm/packages/
     - name: Clear nuget cache
       if: ${{ matrix.os.runner == 'win81' }}
@@ -480,7 +480,7 @@ jobs:
     - name: Fetch Realm
       uses: actions/download-artifact@v4
       with:
-        name: Realm.${{ needs.build-packages.outputs.package_version }}
+        name: Realm.Refurbished.${{ needs.build-packages.outputs.package_version }}
         path: ${{ github.workspace }}/Realm/packages/
     - uses: actions/setup-dotnet@5d1464d5da459f3d7085106d52e499f4dc5d0f59
       with:
@@ -527,7 +527,7 @@ jobs:
     - name: Fetch Realm
       uses: actions/download-artifact@v4
       with:
-        name: Realm.${{ needs.build-packages.outputs.package_version }}
+        name: Realm.Refurbished.${{ needs.build-packages.outputs.package_version }}
         path: ${{ github.workspace }}/Realm/packages/
     - uses: actions/setup-dotnet@5d1464d5da459f3d7085106d52e499f4dc5d0f59
       with:
@@ -585,7 +585,7 @@ jobs:
     - name: Fetch Realm
       uses: actions/download-artifact@v4
       with:
-        name: Realm.${{ needs.build-packages.outputs.package_version }}
+        name: Realm.Refurbished.${{ needs.build-packages.outputs.package_version }}
         path: ${{ github.workspace }}/Realm/packages/
     - uses: actions/setup-dotnet@5d1464d5da459f3d7085106d52e499f4dc5d0f59
       with:
@@ -644,7 +644,7 @@ jobs:
     - name: Fetch Realm
       uses: actions/download-artifact@v4
       with:
-        name: Realm.${{ needs.build-packages.outputs.package_version }}
+        name: Realm.Refurbished.${{ needs.build-packages.outputs.package_version }}
         path: ${{ github.workspace }}/Realm/packages/
     - name: Publish Tests/Realm.Tests
       run: dotnet publish Tests/Realm.Tests -c Release -f net8.0 -r win-x64 -p:RestoreConfigFile=Tests/Test.NuGet.Config -p:UseRealmNupkgsWithVersion=${{ needs.build-packages.outputs.package_version }} -p:RealmTestsStandaloneExe=true -p:TestWeavedClasses=true --no-self-contained
@@ -820,7 +820,7 @@ jobs:
     - name: Fetch Realm
       uses: actions/download-artifact@v4
       with:
-        name: Realm.${{ needs.build-packages.outputs.package_version }}
+        name: Realm.Refurbished.${{ needs.build-packages.outputs.package_version }}
         path: ${{ github.workspace }}/Realm/packages/
     - name: Fetch Realm.UnityUtils
       uses: actions/download-artifact@v4

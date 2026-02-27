@@ -45,8 +45,13 @@ const function applePlatformTargets(_transform: (String, String) -> String): Lis
 
 const ifNotCanceledCondition = "always() && !cancelled() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')"
 
-const nugetPackages: List<String> = List("Realm")
+const nugetPackages: List<String> = List("Realm.Refurbished")
 const packages: List<String> = nugetPackages + List("Realm.UnityUtils", "Realm.UnityWeaver")
+const packageProjectDir: Mapping<String, String> = new {
+  ["Realm.Refurbished"] = "Realm"
+  ["Realm.UnityUtils"] = "Realm.UnityUtils"
+  ["Realm.UnityWeaver"] = "Realm.UnityWeaver"
+}
 
 const testTimeout: Int = 60
 

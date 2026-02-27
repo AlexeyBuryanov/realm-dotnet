@@ -147,13 +147,13 @@ jobs:
         shell: bash
         run: |
           cd Realm/packages
-          pkgVersion=$(find . -type f -regex ".*Realm.[1-9].*.nupkg" -exec basename {} \; | sed -n 's/Realm\.\(.*\)\.nupkg$/\1/p')
+          pkgVersion=$(find . -type f -name "Realm.Refurbished.*.nupkg" -exec basename {} \; | sed -n 's/Realm\.Refurbished\.\(.*\)\.nupkg$/\1/p')
           echo "package_version=$pkgVersion" >> $GITHUB_OUTPUT
-      - name: Store artifacts for Realm.${{ steps.get-version.outputs.package_version }}
+      - name: Store artifacts for Realm.Refurbished.${{ steps.get-version.outputs.package_version }}
         uses: actions/upload-artifact@v4
         with:
-          name: Realm.${{ steps.get-version.outputs.package_version }}
-          path: Realm/packages/Realm.${{ steps.get-version.outputs.package_version }}.*nupkg
+          name: Realm.Refurbished.${{ steps.get-version.outputs.package_version }}
+          path: Realm/packages/Realm.Refurbished.${{ steps.get-version.outputs.package_version }}.*nupkg
           retention-days: 30
           if-no-files-found: error
 
@@ -173,7 +173,7 @@ jobs:
       - name: Download NuGet package
         uses: actions/download-artifact@v4
         with:
-          name: Realm.${{ needs.build-packages.outputs.package_version }}
+          name: Realm.Refurbished.${{ needs.build-packages.outputs.package_version }}
           path: ./packages
       - name: NuGet login (Trusted Publishing)
         id: nuget-login
