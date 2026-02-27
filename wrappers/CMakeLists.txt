@@ -19,17 +19,6 @@ if(ANDROID)
   endif()
 
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,max-page-size=16384")
-
-  # Clang 21+ (NDK 29+) errors on specializing std::is_pod in the s2 library.
-  # Applied globally because s2 headers are included by multiple targets (e.g. Storage).
-  add_compile_options(-Wno-invalid-specialization)
-
-  # NDK 29+ / Clang 21+ no longer transitively exposes std::strtol.
-  # Force-include <cstdlib> so that realm-core's cli_args.cpp (and any other
-  # translation unit) has std::strtol available without modifying the submodule.
-  # Applied via CMAKE_CXX_FLAGS (C++ only) – <cstdlib> does not exist for the
-  # C compiler (breaks e.g. IntelRDFPMathLib).
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include cstdlib")
 endif()
 
 option(REALM_DOTNET_BUILD_CORE_FROM_SOURCE "Build Realm Core from source, as opposed to downloading prebuilt binaries" ON)
