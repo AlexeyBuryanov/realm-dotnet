@@ -1,4 +1,4 @@
-![Nuget](https://img.shields.io/nuget/v/Realm.Refurbished)
+[![Nuget](https://img.shields.io/nuget/v/Realm.Refurbished)](https://www.nuget.org/packages/Realm.Refurbished)
 
 ---
 
