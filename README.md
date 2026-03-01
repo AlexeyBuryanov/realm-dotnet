@@ -1,3 +1,7 @@
+![Nuget](https://img.shields.io/nuget/v/Realm.Refurbished)
+
+---
+
 > [!WARNING]
 > We announced the deprecation of Atlas Device Sync + Realm SDKs in September 2024. For more information please see:
 > - [SDK Deprecation](https://www.mongodb.com/docs/atlas/device-sdks/deprecation)
