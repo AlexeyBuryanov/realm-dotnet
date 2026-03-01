@@ -51,7 +51,7 @@
     <None Include="$(ProjectDir)..\..\NuGet.md" Pack="true" PackagePath="\" />
     <EmbeddedResource Include="Properties\Realm.rd.xml" />
     <None Include="..\Realm.SourceGenerator\bin\$(Configuration)\netstandard2.0\Realm.SourceGenerator.dll" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
-    <None Include="wrappers-props\Realm.props" PackagePath="build\Realm.props" Pack="true" Visible="false" />
+    <None Include="wrappers-props\Realm.props" PackagePath="build\Realm.Refurbished.props" Pack="true" Visible="false" />
     <None Include="..\Realm.Fody\Realm.Fody.xcf" PackagePath="weaver\Realm.Fody.xcf" Pack="true" Visible="false" />
     <None Include="..\Realm.Fody\bin\$(Configuration)\netstandard2.0\Realm.Fody.dll" PackagePath="weaver\Realm.Fody.dll" Pack="true" Visible="false" />
     <!-- iOS -->
@@ -59,7 +59,7 @@
       <Pack>true</Pack>
       <PackagePath>build\xamarinios\</PackagePath>
     </Content>
-    <Content Include="wrappers-props\xamarinios\wrappers.props" Pack="true" PackagePath="build\xamarinios\Realm.props" />
+    <Content Include="wrappers-props\xamarinios\wrappers.props" Pack="true" PackagePath="build\xamarinios\Realm.Refurbished.props" />
     <None Include="..\..\wrappers\build\iphoneos\$(Configuration)\realm-wrappers.framework\**">
       <Pack>true</Pack>
       <PackagePath>runtimes\ios\native\realm-wrappers.framework</PackagePath>
@@ -80,7 +80,7 @@
       <Pack>true</Pack>
       <PackagePath>build\xamarintvos\</PackagePath>
     </Content>
-    <Content Include="wrappers-props\xamarintvos\wrappers.props" Pack="true" PackagePath="build\xamarintvos\Realm.props" />
+    <Content Include="wrappers-props\xamarintvos\wrappers.props" Pack="true" PackagePath="build\xamarintvos\Realm.Refurbished.props" />
     <None Include="..\..\wrappers\build\appletvos\$(Configuration)\realm-wrappers.framework\**">
       <Pack>true</Pack>
       <PackagePath>runtimes\tvos\native\realm-wrappers.framework</PackagePath>
@@ -92,7 +92,7 @@
       <Link>wrappers\appletvsimulator\realm-wrappers.framework\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </None>
     <!-- macOS -->
-    <Content Include="wrappers-props\xamarinmac\wrappers.props" Pack="true" PackagePath="build\xamarinmac\Realm.props" />
+    <Content Include="wrappers-props\xamarinmac\wrappers.props" Pack="true" PackagePath="build\xamarinmac\Realm.Refurbished.props" />
     <None Include="..\..\wrappers\build\Darwin\$(Configuration)\librealm-wrappers.dylib">
       <Pack>true</Pack>
       <PackagePath>runtimes\osx\native</PackagePath>
@@ -115,7 +115,7 @@
       <Link>wrappers\Linux-aarch64\librealm-wrappers.so</Link>
     </None>
     <!-- Android -->
-    <Content Include="wrappers-props\monoandroid\wrappers.props" Pack="true" PackagePath="build\monoandroid\Realm.props" />
+    <Content Include="wrappers-props\monoandroid\wrappers.props" Pack="true" PackagePath="build\monoandroid\Realm.Refurbished.props" />
     <None Include="..\..\wrappers\build\Android\$(Configuration)-armeabi-v7a\librealm-wrappers.so">
       <Pack>true</Pack>
       <PackagePath>runtimes\android-arm\native</PackagePath>
@@ -137,7 +137,7 @@
       <Link>wrappers\Android\x86_64\librealm-wrappers.so</Link>
     </None>
     <!-- Windows -->
-    <Content Include="wrappers-props\net46\wrappers.props" Pack="true" PackagePath="build\net46\Realm.props" />
+    <Content Include="wrappers-props\net46\wrappers.props" Pack="true" PackagePath="build\net46\Realm.Refurbished.props" />
     <None Include="..\..\wrappers\build\Windows\$(Configuration)-Win32\realm-wrappers.dll">
       <Pack>true</Pack>
       <PackagePath>runtimes\win-x86\native</PackagePath>
