@@ -15,4 +15,8 @@
     <None Remove="StyleCop.Cache" />
     <None Remove="FodyWeavers.xsd" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.11" />
+  </ItemGroup>
 </Project>
