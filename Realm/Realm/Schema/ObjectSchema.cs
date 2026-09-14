@@ -26,6 +26,7 @@ using System.Linq;
 using System.Reflection;
 using Realms.Helpers;
 using Realms.Native;
+using Realms.Weaving;
 
 namespace Realms.Schema
 {
@@ -253,10 +254,9 @@ namespace Realms.Schema
 
                 RealmSchemaType = type.GetRealmSchemaType();
 
-                var schemaField = type.GetField("RealmSchema", BindingFlags.Public | BindingFlags.Static);
-                if (schemaField != null)
+                var objectSchema = GetGeneratedSchema(type);
+                if (objectSchema != null)
                 {
-                    var objectSchema = (ObjectSchema)schemaField.GetValue(null)!;
                     Name = objectSchema.Name;
 
                     foreach (var prop in objectSchema)
@@ -280,6 +280,19 @@ namespace Realms.Schema
                 }
 
                 Type = type;
+            }
+
+            private static ObjectSchema? GetGeneratedSchema(Type type)
+            {
+                // inherit: false, to match the old GetField lookup, which did not see base class members
+                var wovenAttribute = type.GetCustomAttribute<WovenAttribute>(inherit: false);
+                if (wovenAttribute != null && Activator.CreateInstance(wovenAttribute.HelperType) is IRealmObjectSchemaProvider provider)
+                {
+                    return provider.ObjectSchema;
+                }
+
+                // Classes generated before IRealmObjectSchemaProvider existed
+                return (ObjectSchema?)type.GetField("RealmSchema", BindingFlags.Public | BindingFlags.Static)?.GetValue(null);
             }
 
             /// <summary>

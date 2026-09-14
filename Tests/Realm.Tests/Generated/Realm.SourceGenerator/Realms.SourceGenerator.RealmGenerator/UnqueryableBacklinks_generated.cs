@@ -236,7 +236,7 @@ namespace Realms.Tests
         public override string? ToString() => Accessor.ToString();
 
         [EditorBrowsable(EditorBrowsableState.Never), Realms.Preserve(AllMembers = true)]
-        private class UnqueryableBacklinksObjectHelper : Realms.Weaving.IRealmObjectHelper
+        private class UnqueryableBacklinksObjectHelper : Realms.Weaving.IRealmObjectHelper, Realms.Weaving.IRealmObjectSchemaProvider
         {
             public void CopyToRealm(Realms.IRealmObjectBase instance, bool update, bool skipDefaults)
             {
@@ -246,6 +246,8 @@ namespace Realms.Tests
             public Realms.ManagedAccessor CreateAccessor() => new UnqueryableBacklinksManagedAccessor();
 
             public Realms.IRealmObjectBase CreateInstance() => new UnqueryableBacklinks();
+
+            public Realms.Schema.ObjectSchema ObjectSchema => UnqueryableBacklinks.RealmSchema;
 
             public bool TryGetPrimaryKeyValue(Realms.IRealmObjectBase instance, out RealmValue value)
             {

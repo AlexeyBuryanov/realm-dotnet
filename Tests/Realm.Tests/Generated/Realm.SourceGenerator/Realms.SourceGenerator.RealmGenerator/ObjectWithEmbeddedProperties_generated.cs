@@ -249,7 +249,7 @@ namespace Realms.Tests
         public override string? ToString() => Accessor.ToString();
 
         [EditorBrowsable(EditorBrowsableState.Never), Realms.Preserve(AllMembers = true)]
-        private class ObjectWithEmbeddedPropertiesObjectHelper : Realms.Weaving.IRealmObjectHelper
+        private class ObjectWithEmbeddedPropertiesObjectHelper : Realms.Weaving.IRealmObjectHelper, Realms.Weaving.IRealmObjectSchemaProvider
         {
             public void CopyToRealm(Realms.IRealmObjectBase instance, bool update, bool skipDefaults)
             {
@@ -259,6 +259,8 @@ namespace Realms.Tests
             public Realms.ManagedAccessor CreateAccessor() => new ObjectWithEmbeddedPropertiesManagedAccessor();
 
             public Realms.IRealmObjectBase CreateInstance() => new ObjectWithEmbeddedProperties();
+
+            public Realms.Schema.ObjectSchema ObjectSchema => ObjectWithEmbeddedProperties.RealmSchema;
 
             public bool TryGetPrimaryKeyValue(Realms.IRealmObjectBase instance, out RealmValue value)
             {
