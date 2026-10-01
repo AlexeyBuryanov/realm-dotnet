@@ -13,6 +13,7 @@
     <CodeAnalysisRuleSet>$(ProjectDir)..\..\global.ruleset</CodeAnalysisRuleSet>
     <DisableFody>true</DisableFody>
     <Nullable>enable</Nullable>
+    <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
     <NoWarn>NU5100</NoWarn>
     <PackageReadmeFile>NuGet.md</PackageReadmeFile>
   </PropertyGroup>
