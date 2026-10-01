@@ -34,6 +34,12 @@ if(REALM_DOTNET_BUILD_CORE_FROM_SOURCE)
   set(REALM_ENABLE_ASSERTIONS ON CACHE BOOL "Enable release assertions")
 
   add_subdirectory(realm-core EXCLUDE_FROM_ALL)
+
+  if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    # Core's cli_args.cpp uses std::strtol without including <cstdlib>.
+    # Xcode 26 no longer supplies it through transitive standard-library includes.
+    target_compile_options(Storage PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:SHELL:-include cstdlib>")
+  endif()
 endif()
 
 # Build as a .framework instead of .dylib
