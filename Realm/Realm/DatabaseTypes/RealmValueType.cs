@@ -80,7 +80,7 @@ namespace Realms
         Decimal128,
 
         /// <summary>
-        /// The value represents a <see cref="MongoDB.Bson.ObjectId"/>.
+        /// The value represents a <see cref="Realms.ObjectId"/>.
         /// </summary>
         ObjectId,
 

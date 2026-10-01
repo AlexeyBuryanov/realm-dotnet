@@ -416,7 +416,7 @@ namespace Realms
         }
 
         /// <summary>
-        /// Returns the stored value as an <see cref="MongoDB.Bson.ObjectId"/>.
+        /// Returns the stored value as an <see cref="Realms.ObjectId"/>.
         /// </summary>
         /// <exception cref="InvalidOperationException">Thrown if the underlying value is not of type <see cref="RealmValueType.ObjectId"/>.</exception>
         /// <returns>An ObjectId representing the value stored in the database.</returns>
@@ -715,7 +715,7 @@ namespace Realms
         public Decimal128? AsNullableDecimal128() => Type == RealmValueType.Null ? null : AsDecimal128();
 
         /// <summary>
-        /// Returns the stored value as a nullable <see cref="MongoDB.Bson.ObjectId"/>.
+        /// Returns the stored value as a nullable <see cref="Realms.ObjectId"/>.
         /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown if the underlying value is not of type <see cref="RealmValueType.ObjectId"/> or <see cref="RealmValueType.Null"/>.
@@ -1001,10 +1001,10 @@ namespace Realms
         public static explicit operator Decimal128(RealmValue val) => val.AsDecimal128();
 
         /// <summary>
-        /// Converts a <see cref="RealmValue"/> to <see cref="MongoDB.Bson.ObjectId"/>. Equivalent to <see cref="AsObjectId"/>.
+        /// Converts a <see cref="RealmValue"/> to <see cref="Realms.ObjectId"/>. Equivalent to <see cref="AsObjectId"/>.
         /// </summary>
         /// <param name="val">The <see cref="RealmValue"/> to convert.</param>
-        /// <returns>The <see cref="MongoDB.Bson.ObjectId"/> stored in the <see cref="RealmValue"/>.</returns>
+        /// <returns>The <see cref="Realms.ObjectId"/> stored in the <see cref="RealmValue"/>.</returns>
         public static explicit operator ObjectId(RealmValue val) => val.AsObjectId();
 
         /// <summary>
@@ -1092,10 +1092,10 @@ namespace Realms
         public static explicit operator Decimal128?(RealmValue val) => val.AsNullableDecimal128();
 
         /// <summary>
-        /// Converts a <see cref="RealmValue"/> to <see cref="MongoDB.Bson.ObjectId">ObjectId?</see>. Equivalent to <see cref="AsNullableObjectId"/>.
+        /// Converts a <see cref="RealmValue"/> to <see cref="Realms.ObjectId">ObjectId?</see>. Equivalent to <see cref="AsNullableObjectId"/>.
         /// </summary>
         /// <param name="val">The <see cref="RealmValue"/> to convert.</param>
-        /// <returns>The <see cref="MongoDB.Bson.ObjectId">ObjectId?</see> stored in the <see cref="RealmValue"/>.</returns>
+        /// <returns>The <see cref="Realms.ObjectId">ObjectId?</see> stored in the <see cref="RealmValue"/>.</returns>
         public static explicit operator ObjectId?(RealmValue val) => val.AsNullableObjectId();
 
         /// <summary>
@@ -1268,7 +1268,7 @@ namespace Realms
         public static implicit operator RealmValue(Decimal128 val) => Decimal(val);
 
         /// <summary>
-        /// Implicitly constructs a <see cref="RealmValue"/> from <see cref="MongoDB.Bson.ObjectId"/>.
+        /// Implicitly constructs a <see cref="RealmValue"/> from <see cref="Realms.ObjectId"/>.
         /// </summary>
         /// <param name="val">The value to store in the <see cref="RealmValue"/>.</param>
         /// <returns>A <see cref="RealmValue"/> containing the supplied <paramref name="val"/>.</returns>
@@ -1359,7 +1359,7 @@ namespace Realms
         public static implicit operator RealmValue(Decimal128? val) => val == null ? Null : Decimal(val.Value);
 
         /// <summary>
-        /// Implicitly constructs a <see cref="RealmValue"/> from <see cref="MongoDB.Bson.ObjectId">ObjectId?</see>.
+        /// Implicitly constructs a <see cref="RealmValue"/> from <see cref="Realms.ObjectId">ObjectId?</see>.
         /// </summary>
         /// <param name="val">The value to store in the <see cref="RealmValue"/>.</param>
         /// <returns>A <see cref="RealmValue"/> containing the supplied <paramref name="val"/>.</returns>
