@@ -47,7 +47,7 @@ namespace RealmWeaver
         internal const string BooleanTypeName = "System.Boolean";
         internal const string DecimalTypeName = "System.Decimal";
         internal const string Decimal128TypeName = "MongoDB.Bson.Decimal128";
-        internal const string ObjectIdTypeName = "MongoDB.Bson.ObjectId";
+        internal const string ObjectIdTypeName = "Realms.ObjectId";
         internal const string DateTimeOffsetTypeName = "System.DateTimeOffset";
         internal const string GuidTypeName = "System.Guid";
         internal const string RealmValueTypeName = "Realms.RealmValue";
@@ -62,7 +62,7 @@ namespace RealmWeaver
         internal const string NullableDecimalTypeName = "System.Nullable`1<System.Decimal>";
         internal const string NullableDecimal128TypeName = "System.Nullable`1<MongoDB.Bson.Decimal128>";
         internal const string NullableDateTimeOffsetTypeName = "System.Nullable`1<System.DateTimeOffset>";
-        internal const string NullableObjectIdTypeName = "System.Nullable`1<MongoDB.Bson.ObjectId>";
+        internal const string NullableObjectIdTypeName = "System.Nullable`1<Realms.ObjectId>";
         internal const string NullableGuidTypeName = "System.Nullable`1<System.Guid>";
 
         private static readonly HashSet<string> _realmValueTypes = new()
