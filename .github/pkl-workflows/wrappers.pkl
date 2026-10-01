@@ -54,6 +54,7 @@ jobs {
       cmd = "./wrappers/build-macos.sh"
       platform = "macos"
       intermediateSteps {
+        Steps.setupXcode(Common.xcodeVersion)
         Steps.setupCmake("3.29.0")
       }
     })
@@ -64,6 +65,7 @@ jobs {
       cmd = "pwsh ./wrappers/build-apple-platform.ps1 Catalyst"
       platform = "catalyst"
       intermediateSteps {
+        Steps.setupXcode(Common.xcodeVersion)
         Steps.setupCmake("3.29.0")
       }
     })
@@ -124,8 +126,11 @@ jobs {
       ifCondition = "\(Common.androidABIs.map((abi) -> "needs.check-cache.outputs.wrappers-android-\(abi) != 'true'").join(" || "))"
     })
   ["windows"] = new Job {
-    `runs-on` = new WindowsLatest {}
+    `runs-on` = "windows-2022"
     name = "Windows"
+    env {
+      ["CMAKE_GENERATOR"] = "Visual Studio 17 2022"
+    }
     strategy {
       matrix {
         ["arch"] = Common.windowsArchs.toListing()
@@ -141,8 +146,11 @@ jobs {
       ifCondition = "\(Common.windowsArchs.map((arch) -> "needs.check-cache.outputs.wrappers-windows-\(arch) != 'true'").join(" || "))"
     })
   ["uwp"] = new Job {
-    `runs-on` = new WindowsLatest {}
+    `runs-on` = "windows-2022"
     name = "UWP"
+    env {
+      ["CMAKE_GENERATOR"] = "Visual Studio 17 2022"
+    }
     strategy {
       matrix {
         ["arch"] = Common.uwpArchs.toListing()

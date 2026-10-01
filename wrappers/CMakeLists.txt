@@ -8,6 +8,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
+if(APPLE AND CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+  # Bundled S2 specializes std::is_pod, which Xcode 26 diagnoses as an error.
+  # Apply to Core and wrappers too, since they include S2 headers.
+  add_compile_options(-Wno-invalid-specialization)
+endif()
+
 if(ANDROID)
   # On Android LTO builds produce larger binaries, so turn them off
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)

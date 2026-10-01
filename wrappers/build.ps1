@@ -29,9 +29,10 @@ param(
     [string]$ExtraCMakeArgs = ''
 )
 
+$ErrorActionPreference = 'Stop'
 Push-Location $PSScriptRoot
 
-$cmakeCommand = Get-Command cmake
+$cmakeCommand = Get-Command cmake -ErrorAction SilentlyContinue
 if (!$cmakeCommand) {
     if (!(Get-Module -ListAvailable -Name VSSetup)) {
         Install-PackageProvider NuGet -Scope CurrentUser -Force
@@ -78,13 +79,19 @@ foreach ($platform in $Platforms) {
     if (-Not $Incremental) {
         Remove-Item .\cmake\$Target\$Configuration-$platform -Recurse -Force -ErrorAction Ignore
     }
-    New-Item .\cmake\$Target\$Configuration-$platform -ItemType "Directory" | Out-Null
+    New-Item .\cmake\$Target\$Configuration-$platform -ItemType "Directory" -Force | Out-Null
     Push-Location .\cmake\$Target\$Configuration-$platform
 
     if (-Not $Incremental) {
         & $cmake $PSScriptRoot $cmakeArgs -DCMAKE_GENERATOR_PLATFORM="$platform" $ExtraCMakeArgs
+        if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+        }
     }
 
     & $cmake --build . --target install --config $Configuration
+    if ($LASTEXITCODE -ne 0) {
+        exit $LASTEXITCODE
+    }
     Pop-Location
 }
