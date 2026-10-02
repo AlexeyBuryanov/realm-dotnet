@@ -231,7 +231,7 @@ namespace SourceGeneratorAssemblyToProcess
         public override string? ToString() => Accessor.ToString();
 
         [EditorBrowsable(EditorBrowsableState.Never), Realms.Preserve(AllMembers = true)]
-        private class PartialClassObjectHelper : Realms.Weaving.IRealmObjectHelper
+        private class PartialClassObjectHelper : Realms.Weaving.IRealmObjectHelper, Realms.Weaving.IRealmObjectSchemaProvider
         {
             public void CopyToRealm(Realms.IRealmObjectBase instance, bool update, bool skipDefaults)
             {
@@ -241,6 +241,8 @@ namespace SourceGeneratorAssemblyToProcess
             public Realms.ManagedAccessor CreateAccessor() => new PartialClassManagedAccessor();
 
             public Realms.IRealmObjectBase CreateInstance() => new PartialClass();
+
+            public Realms.Schema.ObjectSchema ObjectSchema => PartialClass.RealmSchema;
 
             public bool TryGetPrimaryKeyValue(Realms.IRealmObjectBase instance, out RealmValue value)
             {
