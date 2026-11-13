@@ -21,9 +21,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Dynamic;
 using System.Linq;
-using System.Linq.Expressions;
 using MongoDB.Bson;
 using Realms.Dynamic;
 using Realms.Helpers;
@@ -35,7 +33,7 @@ namespace Realms
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "This should not be directly accessed by users.")]
     [SuppressMessage("Design", "CA1010:Generic interface should also be implemented", Justification = "IList conformance is needed for UWP databinding. IList<T> is not necessary.")]
     [DebuggerDisplay("Count = {Count}")]
-    public class RealmSet<T> : RealmCollectionBase<T>, ISet<T>, IDynamicMetaObjectProvider
+    public class RealmSet<T> : RealmCollectionBase<T>, ISet<T>
     {
         private readonly SetHandle _setHandle;
 
@@ -123,8 +121,6 @@ namespace Realms
         }
 
         void ICollection<T>.Add(T item) => Add(item);
-
-        DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression expression) => new MetaRealmSet(expression, this);
 
         internal RealmResults<T> ToResults()
         {

@@ -21,9 +21,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Dynamic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using Realms.Dynamic;
 using Realms.Helpers;
@@ -38,7 +36,6 @@ namespace Realms
     public class RealmDictionary<TValue>
         : RealmCollectionBase<KeyValuePair<string, TValue>>,
           IDictionary<string, TValue>,
-          IDynamicMetaObjectProvider,
           IRealmCollectionBase<DictionaryHandle>,
           INotifiable<DictionaryHandle.DictionaryChangeSet>
     {
@@ -154,8 +151,6 @@ namespace Realms
         public void Add(KeyValuePair<string, TValue> item) => Add(item.Key, item.Value);
 
         public bool ContainsKey(string key) => key != null && _dictionaryHandle.ContainsKey(key);
-
-        DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression expression) => new MetaRealmDictionary(expression, this);
 
         public override int IndexOf(KeyValuePair<string, TValue> value) => throw new NotSupportedException();
 

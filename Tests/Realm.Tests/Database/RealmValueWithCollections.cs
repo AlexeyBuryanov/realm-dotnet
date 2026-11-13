@@ -493,25 +493,6 @@ namespace Realms.Tests.Database
             Assert.That(rvp.AsList(), Is.EqualTo(originalList));
         }
 
-#if !UNITY
-        [Test]
-#endif
-        public void List_WhenManaged_WorksWithDynamic()
-        {
-            var originalList = ListGenerator(1);
-
-            dynamic rvo = _realm.Write(() => _realm.Add(new RealmValueObject()));
-
-            _realm.Write(() =>
-            {
-                rvo.RealmValueProperty = originalList;
-            });
-
-            var rvp = rvo.RealmValueProperty;
-
-            Assert.That(rvp.AsList(), Is.EqualTo(originalList));
-        }
-
         [Test]
         public void List_WhenManaged_WorksWithNotifications()
         {
@@ -973,25 +954,6 @@ namespace Realms.Tests.Database
             });
 
             var rvp = rvo.DynamicApi.Get<RealmValue>(nameof(RealmValueObject.RealmValueProperty));
-
-            Assert.That(rvp.AsDictionary(), Is.EqualTo(dictVal));
-        }
-
-#if !UNITY
-        [Test]
-#endif
-        public void Dictionary_WhenManaged_WorksWithDynamic()
-        {
-            var dictVal = DictGenerator(1);
-
-            dynamic rvo = _realm.Write(() => _realm.Add(new RealmValueObject()));
-
-            _realm.Write(() =>
-            {
-                rvo.RealmValueProperty = dictVal;
-            });
-
-            var rvp = rvo.RealmValueProperty;
 
             Assert.That(rvp.AsDictionary(), Is.EqualTo(dictVal));
         }

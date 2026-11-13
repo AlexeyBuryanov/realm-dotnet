@@ -75,24 +75,6 @@ namespace Realms.Tests.Database
                 Assert.That(allTypesObject.DynamicApi.Get<char>(nameof(AllTypesObject.CharProperty)), Is.EqualTo('F'));
                 Assert.That(allTypesObject.DynamicApi.Get<char?>(nameof(AllTypesObject.NullableCharProperty)), Is.EqualTo('o'));
                 Assert.That(allTypesObject.DynamicApi.Get<string>(nameof(AllTypesObject.StringProperty)), Is.EqualTo("o"));
-
-#if !UNITY
-                var dynamicAto = realm.Write(() =>
-                {
-                    dynamic ato = realm.DynamicApi.CreateObject(nameof(AllTypesObject));
-                    Assert.That(ato, isDynamic ? Is.InstanceOf<DynamicRealmObject>() : Is.InstanceOf<AllTypesObject>());
-
-                    ato.CharProperty = 'F';
-                    ato.NullableCharProperty = 'o';
-                    ato.StringProperty = "o";
-
-                    return ato;
-                });
-
-                Assert.That((char)dynamicAto.CharProperty, Is.EqualTo('F'));
-                Assert.That((char)dynamicAto.NullableCharProperty, Is.EqualTo('o'));
-                Assert.That(dynamicAto.StringProperty, Is.EqualTo("o"));
-#endif
             });
         }
 
@@ -101,26 +83,6 @@ namespace Realms.Tests.Database
         {
             var ato = new AllTypesObject();
             Assert.That(() => _ = ato.DynamicApi, Throws.TypeOf<NotSupportedException>());
-        }
-
-#if !UNITY // Unity doesn't support generic test cases
-        [TestCaseSource(typeof(AccessTests), nameof(AccessTests.SetAndGetValueCases))]
-#endif
-        public void SetAndGetValue<T>(string propertyName, T propertyValue)
-        {
-            RunTestInAllModes((realm, isDynamic) =>
-            {
-                dynamic allTypesObject;
-                using (var transaction = realm.BeginWrite())
-                {
-                    allTypesObject = realm.DynamicApi.CreateObject(nameof(AllTypesObject));
-
-                    InvokeSetter(allTypesObject, propertyName, propertyValue, isDynamic);
-                    transaction.Commit();
-                }
-
-                Assert.That(Operator.Convert<T>(InvokeGetter(allTypesObject, propertyName, isDynamic)), Is.EqualTo(propertyValue));
-            });
         }
 
         [TestCaseSource(typeof(AccessTests), nameof(AccessTests.SetAndGetValueCases))]
@@ -140,33 +102,6 @@ namespace Realms.Tests.Database
                 });
 
                 Assert.That(allTypesObject.DynamicApi.Get<RealmValue>(propertyName), Is.EqualTo(realmValue));
-            });
-        }
-
-#if !UNITY // Unity doesn't support generic test cases
-        [TestCaseSource(typeof(AccessTests), nameof(AccessTests.SetAndReplaceWithNullCases))]
-#endif
-        public void SetValueAndReplaceWithNull<T>(string propertyName, T propertyValue)
-        {
-            RunTestInAllModes((realm, isDynamic) =>
-            {
-                var allTypesObject = realm.Write(() =>
-                {
-                    dynamic ato = realm.DynamicApi.CreateObject(nameof(AllTypesObject));
-
-                    InvokeSetter(ato, propertyName, propertyValue, isDynamic);
-
-                    return ato;
-                });
-
-                Assert.That((T)InvokeGetter(allTypesObject, propertyName, isDynamic), Is.EqualTo(propertyValue));
-
-                realm.Write(() =>
-                {
-                    InvokeSetter<object>(allTypesObject, propertyName, null, isDynamic);
-                });
-
-                Assert.That(InvokeGetter(allTypesObject, propertyName, isDynamic), Is.EqualTo(null));
             });
         }
 
@@ -227,19 +162,6 @@ namespace Realms.Tests.Database
                 });
 
                 Assert.That(allTypesObject.DynamicApi.Get<RealmValue>(nameof(AllTypesObject.RealmValueProperty)), Is.EqualTo(rv));
-
-#if !UNITY
-                var dynamicAto = realm.Write(() =>
-                {
-                    dynamic ato = realm.DynamicApi.CreateObject(nameof(AllTypesObject));
-
-                    ato.RealmValueProperty = rv;
-
-                    return ato;
-                });
-
-                Assert.That((RealmValue)dynamicAto.RealmValueProperty, Is.EqualTo(rv));
-#endif
             });
         }
 
@@ -259,21 +181,6 @@ namespace Realms.Tests.Database
                 });
 
                 Assert.That(ato.DynamicApi.Get<RealmValue>(nameof(AllTypesObject.RealmValueProperty)), Is.EqualTo(rv));
-
-#if !UNITY
-                var (dynamicAto, dynamicRV) = realm.Write(() =>
-                {
-                    dynamic intObject = realm.DynamicApi.CreateObject(nameof(IntPropertyObject), ObjectId.GenerateNewId());
-                    intObject.Int = 10;
-                    RealmValue intObjectRV = RealmValue.Object(intObject);
-
-                    dynamic ato = realm.DynamicApi.CreateObject(nameof(AllTypesObject));
-                    ato.RealmValueProperty = intObjectRV;
-                    return (ato, intObjectRV);
-                });
-
-                Assert.That((RealmValue)dynamicAto.RealmValueProperty, Is.EqualTo(dynamicRV));
-#endif
             });
         }
 
@@ -1031,32 +938,6 @@ namespace Realms.Tests.Database
             Assert.That(meta!.Helper.TryGetPrimaryKeyValue(dynamicObj, out var foundPk), Is.True);
 
             Assert.That(foundPk.AsString(), Is.EqualTo(id));
-        }
-
-        private static object? InvokeGetter(object o, string propertyName, bool isDynamic)
-        {
-            if (isDynamic)
-            {
-                var binder = Binder.GetMember(CSharpBinderFlags.None, propertyName, typeof(DynamicAccessTests), new[] { CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null) });
-                var callsite = CallSite<Func<CallSite, object, object>>.Create(binder);
-                return callsite.Target(callsite, o);
-            }
-
-            return TestHelpers.GetPropertyValue(o, propertyName);
-        }
-
-        private static void InvokeSetter<T>(object o, string propertyName, T propertyValue, bool isDynamic)
-        {
-            if (isDynamic)
-            {
-                var binder = Binder.SetMember(CSharpBinderFlags.None, propertyName, typeof(DynamicAccessTests), new[] { CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null), CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.UseCompileTimeType, null) });
-                var callsite = CallSite<Func<CallSite, object, T, object>>.Create(binder);
-                callsite.Target(callsite, o, propertyValue);
-            }
-            else
-            {
-                TestHelpers.SetPropertyValue(o, propertyName, propertyValue);
-            }
         }
     }
 }

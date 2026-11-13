@@ -17,18 +17,12 @@
 ////////////////////////////////////////////////////////////////////////////
 
 using System.ComponentModel;
-using System.Dynamic;
-using System.Linq.Expressions;
 
 namespace Realms.Dynamic
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Ignored]
-    public class DynamicRealmObject : DynamicRealmObjectBase, IRealmObject, IDynamicMetaObjectProvider
+    public class DynamicRealmObject : DynamicRealmObjectBase, IRealmObject
     {
-        public DynamicMetaObject GetMetaObject(Expression parameter)
-        {
-            return new MetaRealmObject(parameter, this);
-        }
     }
 }

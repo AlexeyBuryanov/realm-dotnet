@@ -21,8 +21,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Dynamic;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Realms.Dynamic;
@@ -41,7 +39,7 @@ namespace Realms
     [EditorBrowsable(EditorBrowsableState.Never)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "This should not be directly accessed by users.")]
     [DebuggerDisplay("Count = {Count}")]
-    public class RealmList<T> : RealmCollectionBase<T>, IList<T>, IDynamicMetaObjectProvider, IRealmCollectionBase<ListHandle>
+    public class RealmList<T> : RealmCollectionBase<T>, IList<T>, IRealmCollectionBase<ListHandle>
     {
         private readonly ListHandle _listHandle;
 
@@ -197,8 +195,6 @@ namespace Realms
         internal override RealmCollectionBase<T> CreateCollection(Realm realm, CollectionHandleBase handle) => new RealmList<T>(realm, (ListHandle)handle, Metadata);
 
         protected override T GetValueAtIndex(int index) => _listHandle.GetValueAtIndex(index, Realm).As<T>();
-
-        DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression expression) => new MetaRealmList(expression, this);
 
         private static void ValidateIndex(int index, string name = "index")
         {
