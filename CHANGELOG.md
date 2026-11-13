@@ -3,6 +3,7 @@
 ### Breaking Changes
 * `ObjectId` has moved from `MongoDB.Bson` to `Realms`. Models and queries using it need `using Realms;` instead of `using MongoDB.Bson;`, or a `using ObjectId = Realms.ObjectId;` alias where both namespaces are imported. `Decimal128` is unchanged and still comes from `MongoDB.Bson`. (PR [#3728](https://github.com/realm/realm-dotnet/pull/3728))
 * Removed the BSON serialization support for Realm objects, completing the removal of Atlas Device Sync. This drops `Realms.Serialization.RealmObjectSerializer`, `Realms.Serialization.RealmObjectSerializerBase` and the per-model serializers the source generator emitted. It existed to serialize Realm objects for `MongoClient.Collection` and Atlas Functions, both of which were removed with sync. Code that relied on `BsonSerializer.Deserialize<MyRealmObject>` will now fall back to the driver's reflective class map rather than a generated serializer, and should register its own serializer instead. (PR [#3728](https://github.com/realm/realm-dotnet/pull/3728))
+* Removed support for the C# `dynamic` keyword on Realm objects and collections. `DynamicRealmObject`, `DynamicEmbeddedObject`, `RealmList<T>`, `RealmSet<T>` and `RealmDictionary<T>` no longer implement `IDynamicMetaObjectProvider`, and the `Microsoft.CSharp` and `System.Dynamic.Runtime` dependencies are gone. The binder relied on `MakeGenericMethod` and could not be made safe for trimming or NativeAOT. Use the typed dynamic API instead, `DynamicApi.Get<T>`, `Set`, `GetList<T>`, `GetSet<T>` and `GetDictionary<T>`, which covers what a migration needs. (PR [#21](https://github.com/AlexeyBuryanov/realm-dotnet/pull/21))
 
 ### Enhancements
 * A trimmed or NativeAOT app no longer sees the 22 trim warnings that `MongoDB.Bson` produced when reached through Realm. (PR [#3728](https://github.com/realm/realm-dotnet/pull/3728))
@@ -10,6 +11,7 @@
 ### Fixed
 * Removed most of the trimming and AOT analysis warnings reported for `Realm.dll`, by annotating the reflection it performs and replacing a `MakeGenericType` call with a closed-generic switch. (PR [#3727](https://github.com/realm/realm-dotnet/pull/3727))
 * Fixed opening a Realm in an app published with NativeAOT throwing `No properties in <class>, has linker stripped it?`. Source generated classes now supply their schema through their generated helper, instead of Realm looking it up by reflection. (Issue [#3417](https://github.com/realm/realm-dotnet/issues/3417))
+* Removed `[Preserve(AllMembers = true)]` from `RealmList<T>`, `RealmSet<T>` and `RealmDictionary<T>`. It existed for the dynamic binding removed above, and on .NET 11 the iOS and Mac SDKs rewrite it into `DynamicDependency` attributes that ILC cannot resolve for explicit implementations of generic interfaces, reporting IL2037 ([dotnet/runtime#137350](https://github.com/dotnet/runtime/issues/137350)). (PR [#21](https://github.com/AlexeyBuryanov/realm-dotnet/pull/21))
 
 ### Compatibility
 * Realm Studio: 15.0.0 or later.

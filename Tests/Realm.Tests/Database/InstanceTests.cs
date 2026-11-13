@@ -741,11 +741,6 @@ namespace Realms.Tests.Database
             var ato = dynamicRealm.DynamicApi.All(nameof(AllTypesObject)).Single();
             Assert.That(ato.DynamicApi.Get<string>(nameof(AllTypesObject.RequiredStringProperty)), Is.EqualTo("This is required!"));
 
-#if !UNITY
-            dynamic dynamicAto = dynamicRealm.DynamicApi.All(nameof(AllTypesObject)).Single();
-            Assert.That(dynamicAto.RequiredStringProperty, Is.EqualTo("This is required!"));
-#endif
-
             Assert.That(dynamicRealm.Schema.TryFindObjectSchema(nameof(EmbeddedAllTypesObject), out var embeddedAllTypesSchema), Is.True);
             Assert.That(embeddedAllTypesSchema, Is.Not.Null);
             Assert.That(embeddedAllTypesSchema!.BaseType, Is.EqualTo(ObjectSchema.ObjectType.EmbeddedObject));
@@ -756,11 +751,6 @@ namespace Realms.Tests.Database
             var embeddedParent = dynamicRealm.DynamicApi.All(nameof(ObjectWithEmbeddedProperties)).Single();
             var embeddedChild = embeddedParent.DynamicApi.Get<IEmbeddedObject>(nameof(ObjectWithEmbeddedProperties.AllTypesObject));
             Assert.That(embeddedChild.DynamicApi.Get<string>(nameof(EmbeddedAllTypesObject.StringProperty)), Is.EqualTo("This is not required!"));
-
-#if !UNITY
-            dynamic dynamicEmbeddedParent = dynamicRealm.DynamicApi.All(nameof(ObjectWithEmbeddedProperties)).Single();
-            Assert.That(dynamicEmbeddedParent.AllTypesObject.StringProperty, Is.EqualTo("This is not required!"));
-#endif
         }
 
         [Test]
